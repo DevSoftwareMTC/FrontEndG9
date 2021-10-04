@@ -9,7 +9,9 @@ import Header from '../../header/Header';
 import Home from '../../modules/Home';
 import Login from '../../modules/login/Login';
 import Ventas from '../../modules/ventas/Ventas'
-
+import Tablaproductos from '../../modules/productos/tabla/Tablaproductos';
+import Usuarios from '../../modules/usuarios/Usuarios';
+import Ventas from '../../modules/ventas/Ventas';
 
 function Sidebar() {
   const pathname = window.location.pathname;
