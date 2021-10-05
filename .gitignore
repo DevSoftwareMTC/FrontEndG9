@@ -21,7 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/src/components/modules/productos/tabla/Tablaproductos.js
-/src/components/modules/usuarios/Usuarios.jsx
-/src/components/modules/ventas/Ventas.jsx
