@@ -1,5 +1,4 @@
 import './assets/css/App.css';
-import "bootstrap/dist/css/bootstrap.css";
 import Sidebar from './components/generics/Sidebar/Sidebar';
 
 function App() {
