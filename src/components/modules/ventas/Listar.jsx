@@ -1,26 +1,30 @@
 import React from 'react'
 import { Table, Button, Form, Navbar, FormControl, Container } from "react-bootstrap"
 
-const Listar = () => {
+
+const sales = [{ idVenta: 1, tipoDNI: "TI", DNIcliente: 1020567899, nombre: "Victoria Valencia", total: 350000, fecha: "12/08/2021", correo: "vvalencia@unal.edu.co", telefono: 3152068799, direccion: "Avenida", ciudad: "Medellin" },
+{ idVenta: 2, tipoDNI: "CC", DNIcliente: 1020567878, nombre: "Nicolas Quintero", total: 450000, fecha: "15/08/2021", correo: "vvalencia@unal.edu.co", telefono: 3152068799, direccion: "Avenida", ciudad: "Bogota" }]
+
+const Listar = ({ methodVentaElegida }) => {
     return (
         <div>
             <hr />
-
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="#">Filtro</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
-                <Container fluid>
-                <Form className="d-flex">
-                <FormControl
-                type ="search"
-                placeholder="ID Venta / DNI / Nombre del cliente"
-                className="me-2"
-                aria-label="Search"
-                />
-                <Button variant="outline-success">Ir</Button>
-                </Form>
-                </Container>
+                    <Container fluid>     
+                        <Form className="d-flex">
+                            <FormControl
+                                type="search"
+                                placeholder="ID Venta / DNI / Nombre del cliente"
+                                className="me-2"
+                                aria-label="Search"
+                            /> 
+                            <Button variant="outline-success">Ir</Button>
+                            <Button variant="secondary" type="button">Crear</Button>
+                        </Form>
+                    </Container>
                 </Navbar.Collapse>
             </Navbar>
 
@@ -37,36 +41,21 @@ const Listar = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>0001</td>
-                        <td>TI</td>
-                        <td>1020567899</td>
-                        <td>Victoria Valencia</td>
-                        <td>$ 350.000</td>
-                        <td>12/08/2021</td>
-                        <td><Button href="Editar" variant="secondary">Editar</Button></td>
-                    </tr>
-                    <tr>
-                        <td>0002</td>
-                        <td>CC</td>
-                        <td>1020567899</td>
-                        <td>Nicolas Ticora</td>
-                        <td>$ 50.500</td>
-                        <td>22/09/2021</td>
-                        <td><Button href="Editar" variant="secondary">Editar</Button></td>
-                    </tr>
-                    <tr>
-                        <td>0003</td>
-                        <td>CE</td>
-                        <td>1020567899</td>
-                        <td>John Jairo Ortiz</td>
-                        <td>$ 65.800</td>
-                        <td>01/10/2021</td>
-                        <td><Button href="Editar" variant="secondary">Editar</Button></td>
-                    </tr>
+                    {sales.map(sale => {
+                        return (
+                            <tr key={sale.idVenta}>
+                                <td>{sale.idVenta}</td>
+                                <td>{sale.tipoDNI}</td>
+                                <td>{sale.DNIcliente}</td>
+                                <td>{sale.nombre}</td>
+                                <td>$ {sale.total}</td>
+                                <td>{sale.fecha}</td>
+                                <td><Button onClick={() => methodVentaElegida(sale)} variant="secondary">Editar</Button></td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </Table>
-
         </div >
     )
 }

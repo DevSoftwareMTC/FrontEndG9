@@ -1,29 +1,37 @@
 import React from 'react'
-import { Form, Button, Row, Col, Table } from "react-bootstrap"
+import { Form, Button, Row, Col, Table, Nav , Navbar , Container } from "react-bootstrap"
 import swal from 'sweetalert'
 
-const Editar = () => {
+const Editar = ({ ventaElegida }) => {
 
-    const editarVentaExitosa=()=>{
+    const editarVentaExitosa = () => {
         swal({
             title: "Editar venta",
             text: "¿Estas seguro que quieres editar esta venta?",
             icon: "warning",
             buttons: ["No", "Si"],
-        }).then(respuesta=>{
-            if(respuesta){
-                swal({text: "La venta se ha editado con exito", icon:"success"})
-            }else{
-                swal({text: "La venta no se ha podido editar", icon:"error"})
+        }).then(respuesta => {
+            if (respuesta) {
+                swal({ text: "La venta se ha editado con exito", icon: "success" })
+            } else {
+                swal({ text: "La venta no se ha podido editar", icon: "error" })
             }
         })
     }
 
     return (
         <div className="contenedor">
-            <hr />
-            <h4> (Editar) Detalles de facturación</h4>
-            <hr />
+            <Navbar bg="light" expand="lg">
+                <Container>
+                    <Navbar.Brand href="#home"><h4> (Editar) Detalles de facturación</h4></Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav align="left">
+                            <Button variant="secondary" type="button">Volver</Button>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
 
             <Form.Text className="text-muted">
                 Los campos marcados con (*) son obligatorios.
@@ -33,49 +41,56 @@ const Editar = () => {
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">ID Venta</Form.Label>
                     <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue="0001" />
+                        <Form.Control plaintext readOnly defaultValue={ventaElegida.idVenta} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Tipo DNI*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="TI - Tarjeta de Identidad" />
+                        <Form.Control type="name" placeholder={ventaElegida.tipoDNI} />
+                    </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                    <Form.Label column sm="2">DNI*</Form.Label>
+                    <Col sm="10">
+                        <Form.Control type="name" placeholder={ventaElegida.DNIcliente} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Nombre Cliente*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Victoria Valencia" />
+                        <Form.Control type="name" placeholder={ventaElegida.nombre} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Correo electrónico*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="vvalencia@unal.edu.co" />
+                        <Form.Control type="name" placeholder={ventaElegida.correo} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Telefono*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="3005066745" />
+                        <Form.Control type="name" placeholder={ventaElegida.telefono} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Dirección*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Avenida 80 # 45-60" />
+                        <Form.Control type="name" placeholder={ventaElegida.direccion} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Ciudad*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Medellín" />
+                        <Form.Control type="name" placeholder={ventaElegida.ciudad} />
                     </Col>
                 </Form.Group>
 
@@ -118,7 +133,7 @@ const Editar = () => {
                         </tbody>
                     </Table>
                 </div>
-                <Button onClick={()=>editarVentaExitosa()} variant="primary" type="button">Guardar Cambios</Button>
+                <Button onClick={() => editarVentaExitosa()} variant="primary" type="button">Guardar Cambios</Button>
                 <hr />
             </Form>
         </div>
