@@ -12,6 +12,11 @@ import Inicio from '../../modules/Inicio';
 import editarProductos from '../../modules/productos/editarProductos';
 import Tablaproductos from '../../modules/productos/tabla/Tablaproductos';
 import agregarProductos from '../../modules/productos/agregarProductos';
+import Usuarios from '../../modules/usuarios/usuarios';
+import AjustePerfil from '../../modules/usuarios/AjustePerfil';
+import Editar from '../../modules/ventas/Editar';
+import Listar from '../../modules/ventas/Listar';
+import Crear from '../../modules/ventas/Crear';
 
 function Sidebar() {
   const pathname = window.location.pathname;
@@ -65,11 +70,12 @@ const IsSidebar = () => {
               <Route exact path="/productos/agregar-productos" component={agregarProductos} />
               <Route exact path="/productos/editar-productos" component={editarProductos} />
               <Route exact path="/productos/tabla" component={Tablaproductos} />
-              <Route path="/ventas">
-                <Ventas />
-              </Route>
-              <Route path="/usuarios">
-              </Route>
+              <Route exact path="/ventas" component={Ventas} />
+              <Route exact path="/ventas/editar" component={Editar} />
+              <Route exact path="/ventas/listar" component={Listar} />
+              <Route exact path="/ventas/crear" component={Crear} />
+              <Route exact path="/usuarios" component={Usuarios} />
+              <Route exact path="/usuarios/ajuste-perfil" component={AjustePerfil} />
             </Switch>
           </main>
         </div>

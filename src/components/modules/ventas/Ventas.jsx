@@ -16,7 +16,7 @@ const Ventas = () => {
         <Router>
             <div className="container">
                 <hr />
-                <h1>Ventas</h1>
+                <h1>Módulo administrador de ventas</h1>
                 <hr />
                 <Link to="/ventas/crear"><Button href="crear" variant="secondary">Crear</Button></Link>
                 <Link to="/ventas/listar"><Button href="listar" variant="secondary">Listar</Button></Link>
