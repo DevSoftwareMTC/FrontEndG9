@@ -9,6 +9,9 @@ import Header from '../header/Header';
 import Login from '../../modules/login/Login';
 import Ventas from '../../modules/ventas/Ventas'
 import Inicio from '../../modules/Inicio';
+import editarProductos from '../../modules/productos/editarProductos';
+import Tablaproductos from '../../modules/productos/tabla/Tablaproductos';
+import agregarProductos from '../../modules/productos/agregarProductos';
 
 function Sidebar() {
   const pathname = window.location.pathname;
@@ -34,7 +37,7 @@ const IsSidebar = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link link-light" exact to="/productos">
+                  <NavLink className="nav-link link-light" exact to="/productos/tabla">
                     <i className="bi-grid me-2"></i>
                     Productos
                   </NavLink>
@@ -59,7 +62,9 @@ const IsSidebar = () => {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/inicio" component={Inicio} />
-              <Route exact path="/productos" />
+              <Route exact path="/productos/agregar-productos" component={agregarProductos} />
+              <Route exact path="/productos/editar-productos" component={editarProductos} />
+              <Route exact path="/productos/tabla" component={Tablaproductos} />
               <Route path="/ventas">
                 <Ventas />
               </Route>
@@ -74,5 +79,3 @@ const IsSidebar = () => {
 }
 
 export default Sidebar
-
-

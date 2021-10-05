@@ -1,3 +1,5 @@
+import { Link, NavLink } from "react-router-dom";
+
 const Header = () => {
   return (
     <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
