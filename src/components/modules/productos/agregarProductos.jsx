@@ -1,20 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import defImagen from './images/logo_1.png'
 
 
+const AgregarProductos = () => {
 
-const agregarProductos = () => {
+    const history = useHistory();
+    const [formValues, setFormValues] = useState({});
+    const [prendas, setPrendas] = useState([])
 
-    const cargarImagen = (event) => {
-        var image = document.getElementById('output');
-        image.src = URL.createObjectURL(event.target.files[0]);
-    }
+    /*  const cargarImagen = (event) => {
+         var image = document.getElementById('output');
+         image.src = URL.createObjectURL(event.target.files[0]);
+     } */
+
 
     const alertRegistro = (e) => {
         e.preventDefault();
         alert("Registro exitoso!")
     }
-    
+
+    const tipoPrendas = () => {
+        fetch('http://localhost:5000/getPrendas')
+            .then(response => response.json())
+            .then(data => {
+                setPrendas(data);
+            }
+            ).catch((error) => {
+                console.log(error);
+            })
+    }
+
+
+    const changeField = (e) => {
+        setFormValues({
+            ...formValues,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const submit = (e) => {
+        e.preventDefault();
+        console.log('formValues', formValues);
+
+        fetch('http://localhost:5000/', {
+            method: 'POST',
+            body: JSON.stringify(formValues),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error: ', error))
+            .then(response => console.log('Success: ', response), e.preventDefault(),
+            alert("Registro exitoso!"));
+    }
+
+
+
 
     return (
 
@@ -34,12 +76,22 @@ const agregarProductos = () => {
                             <div className="row g-3">
                                 <div className="col-sm-6">
                                     <label for="tipoPrenda" className="text-dark form-label">Tipo de prenda</label>
-                                    <select className="form-select" id="tipoPrenda" required="">
-                                        <option value="">Choose...</option>
-                                        <option>Camisa</option>
-                                        <option>Camiseta</option>
-                                        <option>Pantalón</option>
-                                        <option>Bermuda</option>
+                                    <select onClick={tipoPrendas} onChange={changeField} value={formValues.tipo_prenda} name="tipoPrenda" className="form-select" id="tipoPrenda" required="">
+                                        {(prendas !== undefined && prendas.length > 0) ?
+                                            prendas.map(item => {
+                                                return (
+                                                    <option> {item.tipo}</option>
+                                                )
+                                            }) :
+                                            prendas !== undefined ?
+                                                <option>
+                                                    Selecciona un tipo de prenda
+                                                </option>
+                                                :
+                                                <option>
+                                                    Error en la conexión, intenta mas tarde
+                                                </option>
+                                        }
                                     </select>
                                     <div className="invalid-feedback">
                                         Selecciona un tipo de prenda válido.
@@ -48,7 +100,7 @@ const agregarProductos = () => {
 
                                 <div className="col-sm-6">
                                     <label for="talla" className="text-dark form-label">Talla</label>
-                                    <select className="form-select" id="tipoPrenda" required="">
+                                    <select onChange={changeField} value={formValues.talla} name="talla" className="form-select" id="tipoPrenda" required="">
                                         <option value="">Choose...</option>
                                         <option>XS</option>
                                         <option>S</option>
@@ -65,7 +117,7 @@ const agregarProductos = () => {
                                     <label for="producto" className="text-dark form-label">Nombre del producto</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">#</span>
-                                        <input type="text" className="form-control" id="producto" placeholder="Ingresa el nombre del producto"
+                                        <input onChange={changeField} value={formValues.nombreProducto} name="nombreProducto" type="text" className="form-control" id="producto" placeholder="Ingresa el nombre del producto"
                                             required="" />
                                         <div className="invalid-feedback">
                                             Este producto ya existe.
@@ -76,7 +128,7 @@ const agregarProductos = () => {
                                 <div className="col-12">
                                     <label for="manufactura" className="text-dark form-label">Manufactura <span className="text-muted">(Marca o importador del
                                         producto)</span></label>
-                                    <input type="text" className="form-control" id="manufactura"
+                                    <input onChange={changeField} value={formValues.manufactura} name="manufactura" type="text" className="form-control" id="manufactura"
                                         placeholder="Ingresa la manufactura del producto" />
                                     <div className="invalid-feedback">
                                         Valor ingresado incorrecto.
@@ -85,7 +137,7 @@ const agregarProductos = () => {
 
                                 <div className="col-12">
                                     <label for="descpripcion" className="text-dark form-label">Descripción del producto</label>
-                                    <input type="text" className="form-control" id="descpripcion"
+                                    <input onChange={changeField} value={formValues.descripcionProducto} name="descripcionProducto" type="text" className="form-control" id="descpripcion"
                                         placeholder="Realiza una breve descripción del producto" required="" />
                                     <div className="invalid-feedback">
                                         Descripción inválida.
@@ -96,7 +148,7 @@ const agregarProductos = () => {
                                     <label for="precio" className="text-dark form-label">Precio del producto</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">COP</span>
-                                        <input type="number" className="form-control" id="precio" placeholder="Ingresa el precio del producto"
+                                        <input onChange={changeField} value={formValues.precio} name="precio" type="number" className="form-control" id="precio" placeholder="Ingresa el precio del producto"
                                             required="" />
                                         <div className="invalid-feedback">
                                             Valor incorrecto.
@@ -108,7 +160,7 @@ const agregarProductos = () => {
                                     <label for="cantidad" className="text-dark form-label">Stock</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">Numero de unidades</span>
-                                        <input type="number" className="form-control" id="cantidad"
+                                        <input onChange={changeField} value={formValues.stock} name="stock" type="number" className="form-control" id="cantidad"
                                             placeholder="Ingresa el número de unidades a agregar" required="" />
                                         <div className="invalid-feedback">
                                             Valor incorrecto.
@@ -116,16 +168,18 @@ const agregarProductos = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-sm-5 file-loading">
+                                {/* PARTE PARA AGREGAR IMAGEN, POR AHORA NO ESTA INTEGRADA CON LA DB */}
+
+                                {/* <div className="col-sm-5 file-loading">
                                     <input id="input-image-product" name="input-image-product" type="file" accept="image/*" onChange={cargarImagen} style={{ display: "none" }} />
                                     <label className="w-100 btn btn-secondary btn-lg" for="input-image-product">Cargar imagen del producto</label>
                                     <img class="rounded mx-auto d-block" id="output" width="50%" height="auto" alt="" />
-                                </div>
+                                </div> */}
 
                             </div>
                             <div>
                                 <br />
-                                <button onClick={alertRegistro} className="w-100 btn btn-primary btn-lg" type="submit">Agregar producto</button>
+                                <button onClick={submit} className="w-100 btn btn-primary btn-lg" type="submit">Agregar producto</button>
                             </div>
 
                         </form>
@@ -148,4 +202,4 @@ const agregarProductos = () => {
 
 };
 
-export default agregarProductos;
+export default AgregarProductos;
