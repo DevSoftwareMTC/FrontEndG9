@@ -76,7 +76,7 @@ const AgregarProductos = () => {
                         <form className="needs-validation" novaldiate="">
                             <div className="row g-3">
                                 <div className="col-sm-6">
-                                    <label for="tipoPrenda" className="text-dark form-label">Categoria del producto</label>
+                                    <label for="categoria" className="text-dark form-label">Categoria del producto</label>
                                     <select onClick={categoria} onChange={changeField} value={formValues.categoria} name="categoria" className="form-select" id="categoria" required="">
                                         {(category !== undefined && category.length > 0) ?
                                             category.map(item => {
@@ -86,7 +86,7 @@ const AgregarProductos = () => {
                                             }) :
                                             category !== undefined ?
                                                 <option>
-                                                    Selecciona un tipo de prenda
+                                                    Selecciona categoria del producto
                                                 </option>
                                                 :
                                                 <option>
