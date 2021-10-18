@@ -52,7 +52,6 @@ const AgregarProductos = () => {
         }).then(res => res.json())
             .catch(error => console.error('Error: ', error))
             .then(response => console.log('Success: ', response), e.preventDefault(),
-                /* this.target.reset(), */
                 alert("Registro exitoso!"));
                 window.location.reload();
     }
@@ -77,11 +76,11 @@ const AgregarProductos = () => {
                             <div className="row g-3">
                                 <div className="col-sm-6">
                                     <label for="categoria" className="text-dark form-label">Categoria del producto</label>
-                                    <select onClick={categoria} onChange={changeField} value={formValues.categoria} name="categoria" className="form-select" id="categoria" required="">
+                                    <select onClick={categoria} onChange={changeField} value={parseInt(formValues.category)} name="category" className="form-select" id="categoria" required="">
                                         {(category !== undefined && category.length > 0) ?
                                             category.map(item => {
                                                 return (
-                                                    <option> {item.name}</option>
+                                                    <option value ={item.id}> {item.name}</option>
                                                 )
                                             }) :
                                             category !== undefined ?
@@ -115,7 +114,7 @@ const AgregarProductos = () => {
                                 </div>
 
                                 <div className="col-12">
-                                    <label for="producto" className="text-dark form-label" id="nombreP">Nombre del producto</label>
+                                    <label for="producto" className="text-dark form-label">Nombre del producto</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">#</span>
                                         <input onChange={changeField} value={formValues.nombreProducto} name="nombreProducto" type="text" className="form-control" id="producto" placeholder="Ingresa el nombre del producto"
