@@ -7,7 +7,7 @@ const AgregarProductos = () => {
 
     const history = useHistory();
     const [formValues, setFormValues] = useState({});
-    const [prendas, setPrendas] = useState([])
+    const [category, setCategories] = useState([])
 
     /*  const cargarImagen = (event) => {
          var image = document.getElementById('output');
@@ -21,10 +21,10 @@ const AgregarProductos = () => {
     }
 
     const categoria = () => {
-        fetch('http://localhost:5000/getCategoria')
+        fetch('http://localhost:5000/category/read')
             .then(response => response.json())
             .then(data => {
-                setPrendas(data);
+                setCategories(data);
             }
             ).catch((error) => {
                 console.log(error);
@@ -43,7 +43,7 @@ const AgregarProductos = () => {
         e.preventDefault();
         console.log('formValues', formValues);
 
-        fetch('http://localhost:5000/', {
+        fetch('http://localhost:5000/product/', {
             method: 'POST',
             body: JSON.stringify(formValues),
             headers: {
@@ -52,9 +52,10 @@ const AgregarProductos = () => {
         }).then(res => res.json())
             .catch(error => console.error('Error: ', error))
             .then(response => console.log('Success: ', response), e.preventDefault(),
-            alert("Registro exitoso!"));
+                /* this.target.reset(), */
+                alert("Registro exitoso!"));
+                window.location.reload();
     }
-
 
 
 
@@ -77,13 +78,13 @@ const AgregarProductos = () => {
                                 <div className="col-sm-6">
                                     <label for="tipoPrenda" className="text-dark form-label">Categoria del producto</label>
                                     <select onClick={categoria} onChange={changeField} value={formValues.categoria} name="categoria" className="form-select" id="categoria" required="">
-                                        {(prendas !== undefined && prendas.length > 0) ?
-                                            prendas.map(item => {
+                                        {(category !== undefined && category.length > 0) ?
+                                            category.map(item => {
                                                 return (
-                                                    <option> {item.tipo}</option>
+                                                    <option> {item.name}</option>
                                                 )
                                             }) :
-                                            prendas !== undefined ?
+                                            category !== undefined ?
                                                 <option>
                                                     Selecciona un tipo de prenda
                                                 </option>
@@ -100,7 +101,7 @@ const AgregarProductos = () => {
 
                                 <div className="col-sm-6">
                                     <label for="talla" className="text-dark form-label">Talla</label>
-                                    <select onChange={changeField} value={formValues.talla} name="talla" className="form-select" id="tipoPrenda" required="">
+                                    <select onChange={changeField} value={formValues.talla} name="talla" className="form-select" id="tallaPrenda" required="">
                                         <option value="">Choose...</option>
                                         <option>XS</option>
                                         <option>S</option>
@@ -114,7 +115,7 @@ const AgregarProductos = () => {
                                 </div>
 
                                 <div className="col-12">
-                                    <label for="producto" className="text-dark form-label">Nombre del producto</label>
+                                    <label for="producto" className="text-dark form-label" id="nombreP">Nombre del producto</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">#</span>
                                         <input onChange={changeField} value={formValues.nombreProducto} name="nombreProducto" type="text" className="form-control" id="producto" placeholder="Ingresa el nombre del producto"
