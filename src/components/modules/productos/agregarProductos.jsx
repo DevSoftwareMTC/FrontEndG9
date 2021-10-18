@@ -21,7 +21,7 @@ const AgregarProductos = () => {
     }
 
     const categoria = () => {
-        fetch('http://localhost:5000/getCategoria')
+        fetch('http://localhost:5000/category/read')
             .then(response => response.json())
             .then(data => {
                 setPrendas(data);
@@ -75,17 +75,17 @@ const AgregarProductos = () => {
                         <form className="needs-validation" novaldiate="">
                             <div className="row g-3">
                                 <div className="col-sm-6">
-                                    <label for="tipoPrenda" className="text-dark form-label">Categoria del producto</label>
+                                    <label for="categoria" className="text-dark form-label">Categoria del producto</label>
                                     <select onClick={categoria} onChange={changeField} value={formValues.categoria} name="categoria" className="form-select" id="categoria" required="">
                                         {(prendas !== undefined && prendas.length > 0) ?
                                             prendas.map(item => {
                                                 return (
-                                                    <option> {item.tipo}</option>
+                                                    <option> {item.name}</option>
                                                 )
                                             }) :
                                             prendas !== undefined ?
                                                 <option>
-                                                    Selecciona un tipo de prenda
+                                                    Selecciona categoria del producto
                                                 </option>
                                                 :
                                                 <option>

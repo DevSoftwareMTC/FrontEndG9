@@ -17,6 +17,10 @@ import AjustePerfil from '../../modules/usuarios/AjustePerfil';
 import Editar from '../../modules/ventas/Editar';
 import Listar from '../../modules/ventas/Listar';
 import Crear from '../../modules/ventas/Crear';
+import AgregarCategorias from '../../modules/categorias/AgregarCategorias'
+import EditarCategorias from '../../modules/categorias/EditarCategorias'
+import TablaCategorias from '../../modules/categorias/TablaCategorias';
+
 
 function Sidebar() {
   const pathname = window.location.pathname;
@@ -59,6 +63,13 @@ const IsSidebar = () => {
                     Gestion de Usuarios
                   </NavLink>
                 </li>
+
+                <li className="nav-item">
+                  <NavLink className="nav-link link-light" exact to="/categorias">
+                    <i className="bi bi-card-list me-2"></i>
+                    Gestión Categorias
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </nav>
@@ -76,6 +87,9 @@ const IsSidebar = () => {
               <Route exact path="/ventas/crear" component={Crear} />
               <Route exact path="/usuarios" component={Usuarios} />
               <Route exact path="/usuarios/ajuste-perfil" component={AjustePerfil} />
+              <Route exact path="/categorias/agregar-categorias" component={AgregarCategorias} />
+              <Route exact path="/categorias/editar-categorias" component={EditarCategorias} />
+              <Route exact path="/categorias" component={TablaCategorias} />
             </Switch>
           </main>
         </div>
