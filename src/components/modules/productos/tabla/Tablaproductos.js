@@ -171,7 +171,7 @@ const Tablaproductos = () => {
                                 <td>{item.descripcionProducto} </td>
                                 <td>{item.precio} </td>
                                 <td>{item.stock} </td>
-                                <td>{item.category} </td>
+                                <td>{item.category_id} </td>
                                 <td><Button onClick={ModalEditarPAbrir} value={item.id} variant="secondary">Editar</Button></td>
                             </tr>
                             );
@@ -194,7 +194,7 @@ const Tablaproductos = () => {
                 </tbody>
             </table>
 
-            <Modal show={showP} onHide={handleShowP}>
+            <Modal size="lg" show={showP} onHide={handleShowP}>
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar Producto</Modal.Title>
                 </Modal.Header>
@@ -213,7 +213,7 @@ const Tablaproductos = () => {
                                 <div className="row g-3">
                                     <div className="col-sm-6">
                                         <label for="categoria" className="text-dark form-label">Categoria del producto</label>
-                                        <select onClick={categoria} onChange={changeField} value={parseInt(formValues.category)} name="category" className="form-select" id="categoria" required="">
+                                        <select onClick={categoria} onChange={changeField} value={formValues.category_id} name="category_id" className="form-select" id="categoria" required="">
                                             {(category !== undefined && category.length > 0) ?
                                                 category.map(item => {
                                                     return (
