@@ -53,7 +53,7 @@ const AgregarProductos = () => {
             .catch(error => console.error('Error: ', error))
             .then(response => console.log('Success: ', response), e.preventDefault(),
                 alert("Registro exitoso!"));
-                window.location.reload();
+        history.push('/productos/tabla')
     }
 
 
@@ -80,7 +80,7 @@ const AgregarProductos = () => {
                                         {(category !== undefined && category.length > 0) ?
                                             category.map(item => {
                                                 return (
-                                                    <option value ={item.id}> {item.name}</option>
+                                                    <option value={item.id}> {item.name}</option>
                                                 )
                                             }) :
                                             category !== undefined ?
@@ -168,13 +168,13 @@ const AgregarProductos = () => {
                                     </div>
                                 </div>
 
-                                {/* PARTE PARA AGREGAR IMAGEN, POR AHORA NO ESTA INTEGRADA CON LA DB */}
+                                {/* PARTE PARA AGREGAR IMAGEN, POR AHORA NO ESTA INTEGRADA CON LA DB */      /*  }
 
                                 {/* <div className="col-sm-5 file-loading">
                                     <input id="input-image-product" name="input-image-product" type="file" accept="image/*" onChange={cargarImagen} style={{ display: "none" }} />
                                     <label className="w-100 btn btn-secondary btn-lg" for="input-image-product">Cargar imagen del producto</label>
                                     <img class="rounded mx-auto d-block" id="output" width="50%" height="auto" alt="" />
-                                </div> */}
+                                    </div> */ }   
 
                             </div>
                             <div>
@@ -196,6 +196,7 @@ const AgregarProductos = () => {
                     <li className="list-inline-item"><p>Support</p></li>
                 </ul>
             </footer>
+
         </>
 
     )
