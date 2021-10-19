@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
     BrowserRouter,
     Switch,
@@ -14,9 +14,28 @@ import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "reac
 
 
 const TablaCategorias = () => {
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {   //llena la tabla cuando carga el formulario
+             fetch('http://localhost:5000/category/read')
+                .then(response => response.json())
+                .then(data => {
+                  //  console.log('response para llenar tabla', data)
+                    setCategorias(data);
+                }
+                ).catch((error) => {
+                    console.log(error);
+                });
+       
+    }, []) 
+      
+
     const history= useHistory();
     const [formValues, setFormValues] = useState({});
     
+    
+
+
     const submitCategory = (e) => {
         e.preventDefault();
         console.log('formValues', formValues);
@@ -31,6 +50,7 @@ const TablaCategorias = () => {
             .catch(error => console.error('Error: ', error))
             .then(response => console.log('Success: ', response), e.preventDefault(),
             handleClose(),//llamamos la funcion para que cierre el modal despues de grabar la categoria
+          
             alert("Registro exitoso!"));
             
     }
@@ -110,26 +130,31 @@ const TablaCategorias = () => {
                 </tr>
             </thead>
             <tbody>
-               <tr>
-                    <th scope="row">1</th>
-                    <td>Pantalon jean importado </td>
-                    <td><Button onClick={ModalEditarAbrir} variant="secondary">Editar</Button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jean corto </td>
-                    <td><Button onClick={ModalEditarAbrir} variant="secondary">Editar</Button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jean corto </td>
-                    <td><Button onClick={ModalEditarAbrir} variant="secondary">Editar</Button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Gorra deportiva bulls</td>
-                    <td><Button onClick={ModalEditarAbrir} variant="secondary">Editar</Button></td>
-                </tr>
+
+            {(categorias !== undefined && categorias.length > 0) ?
+                categorias.map(item => {
+                    return (<tr>
+                        <th scope="row">{item.id}</th>
+                        <td>{item.name} </td>
+                        <td><Button onClick={ModalEditarAbrir} value={item.id} variant="secondary">Editar</Button></td>
+                    </tr>
+                    );
+                }) :
+                categorias !== undefined ?
+                    <div>
+                        Ningun producto coincide con la busqueda
+                    </div>
+                    :
+                    <div>
+                        Error en la conexión, intenta mas tarde
+                    </div>
+            }
+
+
+
+
+               
+               
             </tbody>
         </table>
             {/* ESTE SWITCH NO FUNCIONA, EL QUE FUNCIONA ES EL "ORIGINAL" DESDE EL SIDEBAR.JSX */}
