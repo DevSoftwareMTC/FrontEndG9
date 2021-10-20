@@ -14,16 +14,17 @@ import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "reac
 
 
 const TablaCategorias = () => {
-    var cont=0;  //contador para enumerar los registros en la tabla
-    const [categorias, setCategorias] = useState([])
 
-    useEffect(() => {   //llena la tabla cuando carga el formulario
-        fillTable(); //funcion llenar la tabla
-    }, []) 
-      
+        var cont=0;  //contador para enumerar los registros en la tabla
+        const [categorias, setCategorias] = useState([])
 
-    const history= useHistory();
-    const [formValues, setFormValues] = useState({});
+        useEffect(() => {   //llena la tabla cuando carga el formulario
+            fillTable(); //funcion llenar la tabla
+        }, []) 
+        
+
+        const history= useHistory();
+        const [formValues, setFormValues] = useState({});
     
         const fillTable = () => {
             fetch('http://localhost:5000/category/read')
@@ -40,7 +41,7 @@ const TablaCategorias = () => {
 
     const submitCategory = (e) => {
         e.preventDefault();
-        console.log('formValues', formValues);
+       // console.log('formValues', formValues);
 
         fetch('http://localhost:5000/category', {
             method: 'POST',
@@ -75,7 +76,28 @@ const TablaCategorias = () => {
 
      const [showEditarCat, setShowEditar] = useState(false);
      const ModalEditarCerrar = () => setShowEditar(false);
-     const ModalEditarAbrir = () => setShowEditar(true);
+     
+     
+     const ModalEditarAbrir = (item) => {// item trae el elemento de la fila enviada por el boton
+        setShowEditar(true);  //muestra el modal de editar 
+       if(item!==null){
+                fetch(`http://localhost:5000/category/${item.id}`)
+                    
+                .then(response => response.json())
+                .then(data => {
+                    console.log('datos para editar la categoria', data)
+                    setShowEditar(data);
+                }
+                ).catch((error) => {
+                    console.log(error);
+                });
+
+       }
+        
+       
+      
+     }
+        
 
     return (
        <div>
@@ -143,7 +165,7 @@ const TablaCategorias = () => {
                         <th scope="row">{cont}</th>
                         <td>{item.id} </td>
                         <td>{item.name} </td>
-                        <td><Button onClick={ModalEditarAbrir} value={item.id} variant="secondary">Editar</Button></td>
+                        <td><Button onClick={() =>ModalEditarAbrir(item)}  variant="secondary">Editar</Button></td>
                     </tr>
                     );
                 }) :
@@ -206,8 +228,10 @@ const TablaCategorias = () => {
                                     <label for="producto" className="text-dark form-label">Digita la categoria a editar</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">#</span>
-                                        <input onChange={changeField} value={formValues.editarCategoria} name="editarCategoria" type="text" className="form-control" id="producto" placeholder="Categoria"
+                                        <input onChange={changeField} value={showEditarCat.name} name="name" type="text" className="form-control"  placeholder="Categoria"
                                             required="" />
+                                             <input type="hidden" onChange={changeField}  value={showEditarCat.id} name="id"/>
+
                                         <div className="invalid-feedback">
                                             Este producto ya existe.
                                         </div>
