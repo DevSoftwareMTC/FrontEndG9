@@ -14,10 +14,19 @@ import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "reac
 
 
 const TablaCategorias = () => {
+    var cont=0;  //contador para enumerar los registros en la tabla
     const [categorias, setCategorias] = useState([])
 
     useEffect(() => {   //llena la tabla cuando carga el formulario
-             fetch('http://localhost:5000/category/read')
+        fillTable(); //funcion llenar la tabla
+    }, []) 
+      
+
+    const history= useHistory();
+    const [formValues, setFormValues] = useState({});
+    
+        const fillTable = () => {
+            fetch('http://localhost:5000/category/read')
                 .then(response => response.json())
                 .then(data => {
                   //  console.log('response para llenar tabla', data)
@@ -26,14 +35,7 @@ const TablaCategorias = () => {
                 ).catch((error) => {
                     console.log(error);
                 });
-       
-    }, []) 
-      
-
-    const history= useHistory();
-    const [formValues, setFormValues] = useState({});
-    
-    
+        } 
 
 
     const submitCategory = (e) => {
@@ -50,9 +52,9 @@ const TablaCategorias = () => {
             .catch(error => console.error('Error: ', error))
             .then(response => console.log('Success: ', response), e.preventDefault(),
             handleClose(),//llamamos la funcion para que cierre el modal despues de grabar la categoria
-          
-            alert("Registro exitoso!"));
             
+            alert("Registro exitoso!"));
+            fillTable(); //llamamos esta funcion para refrescar la tabla despues de guardar el dato
     }
 
     const changeField = (e) => {
@@ -124,6 +126,7 @@ const TablaCategorias = () => {
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">ID categoria</th>
                     <th scope="col">Nombre categoria</th>
                     <th scope="col">Opciones</th>
 
@@ -131,10 +134,14 @@ const TablaCategorias = () => {
             </thead>
             <tbody>
 
-            {(categorias !== undefined && categorias.length > 0) ?
+            {  (categorias !== undefined && categorias.length > 0) ?
+               
                 categorias.map(item => {
+                    
+                   cont++;
                     return (<tr>
-                        <th scope="row">{item.id}</th>
+                        <th scope="row">{cont}</th>
+                        <td>{item.id} </td>
                         <td>{item.name} </td>
                         <td><Button onClick={ModalEditarAbrir} value={item.id} variant="secondary">Editar</Button></td>
                     </tr>
