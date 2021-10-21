@@ -171,7 +171,7 @@ const Tablaproductos = () => {
                                 <td>{item.descripcionProducto} </td>
                                 <td>{item.precio} </td>
                                 <td>{item.stock} </td>
-                                <td>{item.category_id} </td>
+                                <td>{item.category.name} </td>
                                 <td><Button onClick={ModalEditarPAbrir} value={item.id} variant="secondary">Editar</Button></td>
                             </tr>
                             );
