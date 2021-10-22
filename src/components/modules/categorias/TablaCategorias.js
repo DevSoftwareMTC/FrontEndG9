@@ -80,24 +80,25 @@ const TablaCategorias = () => {
      
      const ModalEditarAbrir = (item) => {// item trae el elemento de la fila enviada por el boton
         setShowEditar(true);  //muestra el modal de editar 
-       if(item!==null){
-                fetch(`http://localhost:5000/category/${item.id}`)
-                    
-                .then(response => response.json())
-                .then(data => {
-                    console.log('datos para editar la categoria', data)
-                    setShowEditar(data);
-                }
-                ).catch((error) => {
-                    console.log(error);
-                });
-
-       }
+    
         
-       
-      
+        fetch(`http://localhost:5000/category/${item.id}`)
+            
+        .then(response => response.json())
+        .then(data => {
+            //  console.log('datos para editar la categoria', data)
+            setFormValues(data); //agregamoa al estado del form los datos recuperados
+            
+        }
+        ).catch((error) => {
+            console.log(error);
+        });
+                 
      }
-        
+    
+       
+             
+     
 
     return (
        <div>
@@ -219,7 +220,7 @@ const TablaCategorias = () => {
             </Modal.Footer>
       </Modal>
 
-      <Modal show={showEditarCat} onHide={ModalEditarAbrir}>
+      <Modal show={showEditarCat} onHide={ModalEditarCerrar}>
             <Modal.Header closeButton>
             <Modal.Title>Editar Categoria</Modal.Title>
             </Modal.Header>
@@ -228,9 +229,9 @@ const TablaCategorias = () => {
                                     <label for="producto" className="text-dark form-label">Digita la categoria a editar</label>
                                     <div className="input-group has-validation">
                                         <span className="input-group-text">#</span>
-                                        <input onChange={changeField} value={showEditarCat.name} name="name" type="text" className="form-control"  placeholder="Categoria"
+                                        <input onChange={changeField} value={formValues.name} name="name" type="text" className="form-control"  placeholder="Categoria"
                                             required="" />
-                                             <input type="hidden" onChange={changeField}  value={showEditarCat.id} name="id"/>
+                                              <input type="hidden" onChange={changeField}  value={formValues.id} name="id"/>
 
                                         <div className="invalid-feedback">
                                             Este producto ya existe.
