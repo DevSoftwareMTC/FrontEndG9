@@ -57,6 +57,28 @@ const TablaCategorias = () => {
             alert("Registro exitoso!"));
             fillTable(); //llamamos esta funcion para refrescar la tabla despues de guardar el dato
     }
+     
+    /*METODO ACTUALIZAR CATEGORIA */
+    const updateCategory = (e) => {
+        e.preventDefault();
+     //  console.log('formValues categoria', formValues);
+
+        fetch(`http://localhost:5000/category/up/${e.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(formValues),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error: ', error))
+            .then(response => console.log('Success: ', response), e.preventDefault(),
+            ModalEditarCerrar(),//llamamos la funcion para que cierre el modal despues de editar la categoria
+            
+            alert("Actualización de la categoria exitosa!"));
+            fillTable(); //llamamos esta funcion para refrescar la tabla despues de guardar el dato
+    }
+
+
 
     const changeField = (e) => {
         setFormValues({
@@ -245,7 +267,7 @@ const TablaCategorias = () => {
             <Button variant="secondary" onClick={ModalEditarCerrar}>
                 Cerrar
             </Button>
-            <Button variant="primary" onClick={ModalEditarCerrar}>
+            <Button variant="primary" onClick={updateCategory}>
                 Guardar Cambios
             </Button>
             </Modal.Footer>
