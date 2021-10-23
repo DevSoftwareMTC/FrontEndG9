@@ -1,9 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import {
-    BrowserRouter,
-    Switch,
-    Route,
-  } from "react-router-dom";
+
 
 import { useHistory } from 'react-router'
 import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "react-bootstrap"
@@ -41,7 +37,7 @@ const TablaCategorias = () => {
 
     const submitCategory = (e) => {
         e.preventDefault();
-       // console.log('formValues', formValues);
+     //  console.log('formValues de crear categoria', formValues);
 
         fetch('http://localhost:5000/category', {
             method: 'POST',
@@ -59,25 +55,23 @@ const TablaCategorias = () => {
     }
      
     /*METODO ACTUALIZAR CATEGORIA */
-    const updateCategory = (e) => {
-        e.preventDefault();
-     //  console.log('formValues categoria', formValues);
+   
+    const submitUpdate = (item) => {
+        console.log('formValues', item);
 
-        fetch(`http://localhost:5000/category/up/${e.id}`, {
+        fetch(`http://localhost:5000/category/up/${item.id}`, {
             method: 'PATCH',
-            body: JSON.stringify(formValues),
+            body: JSON.stringify(item),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
             .catch(error => console.error('Error: ', error))
-            .then(response => console.log('Success: ', response), e.preventDefault(),
-            ModalEditarCerrar(),//llamamos la funcion para que cierre el modal despues de editar la categoria
-            
-            alert("Actualización de la categoria exitosa!"));
-            fillTable(); //llamamos esta funcion para refrescar la tabla despues de guardar el dato
+            .then(response => console.log('Success: ', response), 
+                alert("Cambios guardados"));
+                ModalEditarCerrar();
+        window.location.reload();
     }
-
 
 
     const changeField = (e) => {
@@ -267,7 +261,7 @@ const TablaCategorias = () => {
             <Button variant="secondary" onClick={ModalEditarCerrar}>
                 Cerrar
             </Button>
-            <Button variant="primary" onClick={updateCategory}>
+            <Button variant="primary" onClick={() => submitUpdate(formValues)}>
                 Guardar Cambios
             </Button>
             </Modal.Footer>
