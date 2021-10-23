@@ -1,9 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import {
-    BrowserRouter,
-    Switch,
-    Route,
-  } from "react-router-dom";
+import url from '../../constantes/urlBack'
 
 import { useHistory } from 'react-router'
 import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "react-bootstrap"
@@ -27,7 +23,7 @@ const TablaCategorias = () => {
         const [formValues, setFormValues] = useState({});
     
         const fillTable = () => {
-            fetch('http://localhost:5000/category/read')
+            fetch(`${url}/category/read`)
                 .then(response => response.json())
                 .then(data => {
                   //  console.log('response para llenar tabla', data)
@@ -41,9 +37,9 @@ const TablaCategorias = () => {
 
     const submitCategory = (e) => {
         e.preventDefault();
-       // console.log('formValues', formValues);
+     //  console.log('formValues de crear categoria', formValues);
 
-        fetch('http://localhost:5000/category', {
+        fetch(`${url}/category`, {
             method: 'POST',
             body: JSON.stringify(formValues),
             headers: {
@@ -57,6 +53,27 @@ const TablaCategorias = () => {
             alert("Registro exitoso!"));
             fillTable(); //llamamos esta funcion para refrescar la tabla despues de guardar el dato
     }
+     
+    /*METODO ACTUALIZAR CATEGORIA */
+   
+    const submitUpdate = (item) => {
+        console.log('formValues', item);
+
+        fetch(`${url}/category/up/${item.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(item),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error: ', error))
+            .then(response => console.log('Success: ', response), 
+                alert("Cambios guardados"));
+                ModalEditarCerrar();
+                fillTable();
+        //window.location.reload();
+    }
+
 
     const changeField = (e) => {
         setFormValues({
@@ -82,7 +99,7 @@ const TablaCategorias = () => {
         setShowEditar(true);  //muestra el modal de editar 
     
         
-        fetch(`http://localhost:5000/category/${item.id}`)
+        fetch(`${url}/category/${item.id}`)
             
         .then(response => response.json())
         .then(data => {
@@ -245,7 +262,7 @@ const TablaCategorias = () => {
             <Button variant="secondary" onClick={ModalEditarCerrar}>
                 Cerrar
             </Button>
-            <Button variant="primary" onClick={ModalEditarCerrar}>
+            <Button variant="primary" onClick={() => submitUpdate(formValues)}>
                 Guardar Cambios
             </Button>
             </Modal.Footer>
