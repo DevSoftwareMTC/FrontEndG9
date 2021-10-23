@@ -49,6 +49,9 @@ const Tablaproductos = () => {
 
     //modal editar producto
     const [showEditarProd, setShowEditarP] = useState(false);
+
+    const [categoryOld, setCategoryOld] = useState({}) ;
+
     const ModalEditarPCerrar = () => setShowEditarP(false);
     const ModalEditarPAbrir = (item) => {
         setShowEditarP(true);
@@ -59,6 +62,7 @@ const Tablaproductos = () => {
                 .then(data => {
                     console.log('datos para editar el producto', data)
                     setFormValues(data)
+                    setCategoryOld(data)
                     //setShowEditarP(data);
                 }
                 ).catch((error) => {
@@ -394,7 +398,9 @@ const Tablaproductos = () => {
                                                 <div className="row g-3">
                                                     <div className="col-sm-6">
                                                         <label for="categoria" className="text-dark form-label">Categoria del producto</label>
-                                                        <select onClick={categoria} onChange={changeField} value={formValues.category_id} name="category" className="form-select" id="categoria" required="">
+                                                        <select onClick={categoria} onChange={changeField} name="category_id" className="form-select" id="categoria" required="">
+                                                            
+                                                            <option value={categoryOld.category_id}> VALOR ANTERIOR </option>
                                                             {(category !== undefined && category.length > 0) ?
                                                                 category.map(item => {
                                                                     return (
