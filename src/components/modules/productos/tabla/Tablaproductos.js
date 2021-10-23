@@ -10,6 +10,7 @@ import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "reac
 import agregarProductos from '../agregarProductos';
 import editarProductos from '../editarProductos';
 import defImagen from '../images/logo_1.png'
+import url from '../../../constantes/urlBack'
 
 
 
@@ -28,7 +29,7 @@ const Tablaproductos = () => {
     const [productos, setProductos] = useState([])
 
     useEffect(() => {   //llena la tabla cuando carga el formulario
-        fetch('http://localhost:5000/product/')
+        fetch(`${url}/product/`)
             .then(response => response.json())
             .then(data => {
                 //  console.log('response para llenar tabla', data)
@@ -56,7 +57,7 @@ const Tablaproductos = () => {
     const ModalEditarPAbrir = (item) => {
         setShowEditarP(true);
         if (item !== null) {
-            fetch(`http://localhost:5000/product/${item.id}`)
+            fetch(`${url}/product/${item.id}`)
 
                 .then(response => response.json())
                 .then(data => {
@@ -86,7 +87,7 @@ const Tablaproductos = () => {
         }
 
         const categoria = () => {
-            fetch('http://localhost:5000/category/read')
+            fetch(`${url}/category/read` )
                 .then(response => response.json())
                 .then(data => {
                     setCategories(data);
@@ -108,7 +109,7 @@ const Tablaproductos = () => {
             e.preventDefault();
             console.log('formValues', formValues);
 
-            fetch('http://localhost:5000/product/', {
+            fetch(`${url}/product/`, {
                 method: 'POST',
                 body: JSON.stringify(formValues),
                 headers: {
@@ -125,7 +126,7 @@ const Tablaproductos = () => {
         const submitUpdate = (item) => {
             console.log('formValues', item);
 
-            fetch(`http://localhost:5000/product/${item.id}`, {
+            fetch(`${url}/product/${item.id}`, {
                 method: 'PATCH',
                 body: JSON.stringify(item),
                 headers: {
