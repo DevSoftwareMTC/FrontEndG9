@@ -255,8 +255,10 @@ const Tablaproductos = () => {
                                     <div className="row g-3">
                                         <div className="col-sm-6">
                                             <label for="categoria" className="text-dark form-label">Categoria del producto</label>
-                                            <select onClick={categoria} onChange={changeField} value={formValues.category_id} name="category_id" className="form-select" id="categoria" required="">
+                                            <select onClick={categoria} onChange={changeField}  name="category_id" className="form-select" id="categoria" required="">
+                                                <option value=""> seleccionar </option>
                                                 {(category !== undefined && category.length > 0) ?
+                                                    
                                                     category.map(item => {
                                                         return (
                                                             <option value={item.id}> {item.name}</option>
