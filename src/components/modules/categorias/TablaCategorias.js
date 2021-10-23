@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-
+import url from '../../constantes/urlBack'
 
 import { useHistory } from 'react-router'
 import { Table, Button, Form, Navbar, FormControl, Container, Modal } from "react-bootstrap"
@@ -23,7 +23,7 @@ const TablaCategorias = () => {
         const [formValues, setFormValues] = useState({});
     
         const fillTable = () => {
-            fetch('http://localhost:5000/category/read')
+            fetch(`${url}/category/read`)
                 .then(response => response.json())
                 .then(data => {
                   //  console.log('response para llenar tabla', data)
@@ -39,7 +39,7 @@ const TablaCategorias = () => {
         e.preventDefault();
      //  console.log('formValues de crear categoria', formValues);
 
-        fetch('http://localhost:5000/category', {
+        fetch(`${url}/category`, {
             method: 'POST',
             body: JSON.stringify(formValues),
             headers: {
@@ -59,7 +59,7 @@ const TablaCategorias = () => {
     const submitUpdate = (item) => {
         console.log('formValues', item);
 
-        fetch(`http://localhost:5000/category/up/${item.id}`, {
+        fetch(`${url}/category/up/${item.id}`, {
             method: 'PATCH',
             body: JSON.stringify(item),
             headers: {
@@ -70,7 +70,8 @@ const TablaCategorias = () => {
             .then(response => console.log('Success: ', response), 
                 alert("Cambios guardados"));
                 ModalEditarCerrar();
-        window.location.reload();
+                fillTable();
+        //window.location.reload();
     }
 
 
@@ -98,7 +99,7 @@ const TablaCategorias = () => {
         setShowEditar(true);  //muestra el modal de editar 
     
         
-        fetch(`http://localhost:5000/category/${item.id}`)
+        fetch(`${url}/category/${item.id}`)
             
         .then(response => response.json())
         .then(data => {
