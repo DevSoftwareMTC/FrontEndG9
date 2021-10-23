@@ -1,80 +1,103 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Row, Col, Table } from "react-bootstrap"
 import swal from 'sweetalert'
+import { createSale } from './service'
 
-const Crear = () => {
+const Crear = ({ methodBack, sales }) => {
+    const [tipoDNI, setTipoDNI] = useState("CC")
+    const [DNI, setDNI] = useState("")
+    const [nombre, setNombre] = useState("")
+    const [correo, setCorreo] = useState("")
+    const [telefono, setTelefono] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [ciudad, setCiudad] = useState("")
 
-    const crearVentaExitosa=()=>{
+    const crearVentaExitosa = (event) => {
+        event.preventDefault();
+        const sale = {
+            typeDni: tipoDNI,
+            dni: DNI,
+            name: nombre,
+            email: correo,
+            tel: telefono,
+            address: direccion,
+            city: ciudad
+        }
+        console.log(sale);
+        createSale(sale);
+
         swal({
             title: "Registro de venta",
             text: "EXITOSA",
             icon: "success",
             button: "Aceptar"
         })
+        methodBack(true)
     }
 
     return (
         <div className="contenedor">
             <hr />
             <h4>Detalles de facturación</h4>
+            <Button onClick={() => methodBack(true)} variant="secondary" type="button">Volver</Button>
             <hr />
 
             <Form.Text className="text-muted">
                 Los campos marcados con (*) son obligatorios.
             </Form.Text>
+            <br />
 
-            <Form>
-                <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                    <Form.Label column sm="2">ID Venta</Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue="0001" />
-                    </Col>
-                </Form.Group>
-
+            <Form onSubmit = { crearVentaExitosa }>
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Tipo DNI*</Form.Label>
                     <Col sm="10">
-                        <Form.Select aria-label="Default select example">
-                            <option>Seleccione el tipo de documento</option>
-                            <option value="1">TI - Tarjeta de Identidad</option>
-                            <option value="2">CC - Cédula de Ciudadania</option>
-                            <option value="3">CE - Cédula de Extranjeria</option>
+                        <Form.Select value={tipoDNI} onChange={(e) => setTipoDNI(e.target.value)} aria-label="Default select example">
+                            <option value="CC">CC - Cédula de Ciudadania</option>
+                            <option value="TI">TI - Tarjeta de Identidad</option>
+                            <option value="CE">CE - Cédula de Extranjeria</option>
                         </Form.Select>
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                    <Form.Label column sm="2">Nombre Cliente*</Form.Label>
+                    <Form.Label column sm="2">DNI*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Ingrese nombre del cliente" />
+                        <Form.Control value={DNI} onChange={(e) => setDNI(e.target.value)} type="name" placeholder="Ingrese DNI del cliente" />
+                    </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                    <Form.Label column sm="2">Nombre*</Form.Label>
+                    <Col sm="10">
+                        <Form.Control value={nombre} onChange={(e) => setNombre(e.target.value)} type="name" placeholder="Ingrese nombre del cliente" />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Correo electrónico*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Ingrese el correo electrónico" />
+                        <Form.Control value={correo} onChange={(e) => setCorreo(e.target.value)} type="name" placeholder="Ingrese el correo electrónico" />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Telefono*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Ingrese el telefono" />
+                        <Form.Control value={telefono} onChange={(e) => setTelefono(e.target.value)} type="name" placeholder="Ingrese el telefono" />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Dirección*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Ingrese la dirección" />
+                        <Form.Control value={direccion} onChange={(e) => setDireccion(e.target.value)} type="name" placeholder="Ingrese la dirección" />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Ciudad*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder="Ingrese la ciudad" />
+                        <Form.Control value={ciudad} onChange={(e) => setCiudad(e.target.value)} type="name" placeholder="Ingrese la ciudad" />
                     </Col>
                 </Form.Group>
 
@@ -165,7 +188,7 @@ const Crear = () => {
                         </tbody>
                     </Table>
                 </div>
-                <Button onClick={()=>crearVentaExitosa()} variant="primary" type="button">Registrar Venta</Button>
+                <Button variant="primary" type="submit" >Registrar Venta</Button>
                 <hr />
             </Form>
         </div>

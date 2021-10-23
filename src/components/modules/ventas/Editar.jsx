@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Row, Col, Table, Nav , Navbar , Container } from "react-bootstrap"
 import swal from 'sweetalert'
+import { updateSale } from './service'
 
-const Editar = ({ ventaElegida }) => {
+const Editar = ({ methodBack, ventaElegida, sales }) => {
+    const [nombre, setNombre] = useState(ventaElegida.name)
+    const [correo, setCorreo] = useState(ventaElegida.email)
+    const [telefono, setTelefono] = useState(ventaElegida.tel)
+    const [direccion, setDireccion] = useState(ventaElegida.address)
+    const [ciudad, setCiudad] = useState(ventaElegida.city)
 
-    const editarVentaExitosa = () => {
+    const editarVentaExitosa = (event) => {
+        event.preventDefault();
         swal({
             title: "Editar venta",
             text: "¿Estas seguro que quieres editar esta venta?",
@@ -12,7 +19,17 @@ const Editar = ({ ventaElegida }) => {
             buttons: ["No", "Si"],
         }).then(respuesta => {
             if (respuesta) {
+                const salesEdited = {
+                    name: nombre,
+                    email: correo,
+                    tel: telefono,
+                    address: direccion,
+                    city: ciudad
+                }
+                updateSale(salesEdited, ventaElegida.dni)
+                
                 swal({ text: "La venta se ha editado con exito", icon: "success" })
+                methodBack(true)
             } else {
                 swal({ text: "La venta no se ha podido editar", icon: "error" })
             }
@@ -27,7 +44,7 @@ const Editar = ({ ventaElegida }) => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav align="left">
-                            <Button variant="secondary" type="button">Volver</Button>
+                        <Button onClick={() => methodBack(true)} variant="secondary" type="button">Volver</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -37,60 +54,54 @@ const Editar = ({ ventaElegida }) => {
                 Los campos marcados con (*) son obligatorios.
             </Form.Text>
 
-            <Form>
-                <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                    <Form.Label column sm="2">ID Venta</Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={ventaElegida.idVenta} />
-                    </Col>
-                </Form.Group>
+            <Form onSubmit = { editarVentaExitosa } >
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Tipo DNI*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.tipoDNI} />
+                        <Form.Control plaintext readOnly defaultValue={ventaElegida.typeDni} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">DNI*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.DNIcliente} />
+                        <Form.Control plaintext readOnly defaultValue={ventaElegida.dni} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Nombre Cliente*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.nombre} />
+                        <Form.Control value={nombre} onChange={(e) => setNombre(e.target.value)} type="name" placeholder={ventaElegida.name} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Correo electrónico*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.correo} />
+                        <Form.Control value={correo} onChange={(e) => setCorreo(e.target.value)} type="name" placeholder={ventaElegida.email} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Telefono*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.telefono} />
+                        <Form.Control value={telefono} onChange={(e) => setTelefono(e.target.value)} type="name" placeholder={ventaElegida.tel} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Dirección*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.direccion} />
+                        <Form.Control value={direccion} onChange={(e) => setDireccion(e.target.value)} type="name" placeholder={ventaElegida.address} />
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                     <Form.Label column sm="2">Ciudad*</Form.Label>
                     <Col sm="10">
-                        <Form.Control type="name" placeholder={ventaElegida.ciudad} />
+                        <Form.Control value={ciudad} onChange={(e) => setCiudad(e.target.value)} type="name" placeholder={ventaElegida.city} />
                     </Col>
                 </Form.Group>
 
@@ -133,7 +144,7 @@ const Editar = ({ ventaElegida }) => {
                         </tbody>
                     </Table>
                 </div>
-                <Button onClick={() => editarVentaExitosa()} variant="primary" type="button">Guardar Cambios</Button>
+                <Button variant="primary" type="submit">Guardar Cambios</Button>
                 <hr />
             </Form>
         </div>
